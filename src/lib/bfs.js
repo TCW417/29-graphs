@@ -22,63 +22,43 @@ export class Queue {
     return this._queue.length;
   }
 }
-  
+
+//
+// This is LITERALLY Judy's demo code with the stack array replaced with an instance of my Queue class
+// and the for of replaced with a for i loop.
+//
 export const BFS = (graph, startNode, goalNode) => {
-  // we need to keep track of visited nodes so we don't revisit them
-  // a Set is a collection of unique values or "keys"
-  const visitedNodes = new Set();
+  const visitedNodes = new Set(); // set to keep track of nodes we've already visited
+
+  const parentMap = new Map(); // parentMap holds the edges we've visited 
   
-  // we use this map to keep track of the nodes we saw while traveling to the goal, think of this like breadcrumbs
-  // A Map is like a JS object except its keys can be anything besides a string
-  /*
-    this parent map will look like this (it's a little anti-intuitive, we read right to left):
-    If this was a map representing a graph where Node A has edges to Nodes B and C
-    Destination point B => Origin point A
-    Destination point C => Origin point A
-  */
+  const queue = new Queue(); // instantiate a new queue
 
-  const parentMap = new Map();
-  // we push the start Node onto our stack and add it into our visited nodes set to keep track that it was visited
-  // we could potentially add a "visited" property to our Node as well, but this is just a design choice to leave the Node class alone and untouched
+  queue.enqueue(startNode); // enqueue the start node
 
-  const queue = new Queue();
+  visitedNodes.add(startNode); // add start node to the queue as its initial member
 
-  queue.enqueue(startNode);
-  visitedNodes.add(startNode);
+  while (queue.length) { // loop until the queue is empty...
+    const currentNode = queue.dequeue(); // get the node at the head of the queue
 
-  while (queue.length) {
-    const currentNode = queue.dequeue();
-
-    // if we reach our goal node, we stop execution and return our parentMap, which will represent the paths we took before we found our goal node
-    if (currentNode === goalNode) {
+    if (currentNode === goalNode) { // if we've reached our goal, bail!
       return parentMap;
     }
-    // if we are not at our goal node, we check all the neighbors and put them into the stack
-    // remember that the "getNeighbors" method on our graph returns an array of all the neighbors the currentNode is connected to
-    const neighbors = graph.getNeighbors(currentNode);
-    console.log(neighbors, 'NEIGHBORS');
+    
+    const neighbors = graph.getNeighbors(currentNode); // otherwise, get our current neighbors
 
-    /*eslint-disable*/
-    // disabling this because Airbnb linter doesn't like "for let of" loops
-    // currentNode is the neighbor's "parent" or origin point
+    for (let i = 0; i < neighbors.length; i++) { // for each neighbor
+      const neighborNode = neighbors[i].node; // get the node value from the map object
 
-    for (let neighbor of neighbors) {
-      let neighborNode = neighbor.node;
+      if (visitedNodes.has(neighborNode)) continue; /* eslint-disable-line */ // skip if already visited
 
-      if (visitedNodes.has(neighborNode)) {
-        continue;
-        // we use "continue" to skip all the code below and move on to next neighbor
-      } 
+      visitedNodes.add(neighborNode); // add node to list of those already visited. we won't be back...
 
-      visitedNodes.add(neighborNode);
+      parentMap.set(neighborNode, currentNode); // update previous node map with this neighbor
 
-      //update parent set
-      parentMap.set(neighborNode, currentNode);
-      // push into stack
-      queue.enqueue(neighborNode);
+      queue.enqueue(neighborNode); // push the neighbor onto the queue for later processing
     }
   }
-  // if we get here, there is no path
-  return null;
 
-}
+  return null; // no path, or no graph, return null.
+};
