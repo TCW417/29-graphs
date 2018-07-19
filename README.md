@@ -1,5 +1,6 @@
 ![cf](http://i.imgur.com/7v5ASc8.png) 29: Graphs
 ===
+[![Build Status](https://travis-ci.com/TCW417/29-graphs.svg?branch=master)](https://travis-ci.com/TCW417/29-graphs)
 
 ## Submission Instructions
   * Work in a fork of this repository
