@@ -1,29 +1,9 @@
-import { Queue, BFS } from '../lib/bfs';
 import Graph from '../lib/graph';
 import Node from '../lib/node';
+import DFS from '../lib/sort-of-dfs';
 
-describe('Queue class tests', () => {
-  let queue;
-  beforeEach(() => {
-    queue = new Queue();
-  });
-
-  test('Test constructor', () => {
-    expect(queue._queue).toHaveLength(0);
-  });
-
-  test('enqueue 1, 2, dequeue 1', () => {
-    queue.enqueue(1);
-    queue.enqueue(2);
-    console.log('_queue', queue._queue);
-    expect(queue).toHaveLength(2);
-    expect(queue.peek()).toEqual(1);
-    expect(queue.dequeue()).toEqual(1);
-  });
-});
-
-describe('BFS Search', () => {
-  test('testing BFS search', () => {
+describe('DFS Search', () => {
+  test('testing DFS search', () => {
     const graph = new Graph();
     const node5 = new Node(5);
     const node10 = new Node(10);
@@ -65,11 +45,11 @@ describe('BFS Search', () => {
     graph.addEdge(node20, node25);
     graph.addEdge(node15, node25);
 
-    const paths = BFS(graph, node5, node25);
+    const paths = DFS(graph, node5, node25);
     console.log(paths);
     expect(paths).not.toBeNull();
     expect(paths.has(node25)).toBeTruthy();
-    const nonExistentPaths = BFS(graph, node5, node100);
+    const nonExistentPaths = DFS(graph, node5, node100);
     expect(nonExistentPaths).toBeNull();
   });
 });

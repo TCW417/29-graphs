@@ -2,7 +2,7 @@
 
 import Graph from '../lib/graph';
 import Node from '../lib/node';
-import dijkstra from '../lib/djikstra';
+import dijkstra from '../lib/dijkstra';
 
 
 describe('BFS Search', () => {
