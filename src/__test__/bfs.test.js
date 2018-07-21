@@ -9,14 +9,14 @@ describe('Queue class tests', () => {
   });
 
   test('Test constructor', () => {
-    expect(queue._queue.length).toEqual(0);
+    expect(queue._queue).toHaveLength(0);
   });
 
   test('enqueue 1, 2, dequeue 1', () => {
     queue.enqueue(1);
     queue.enqueue(2);
     console.log('_queue', queue._queue);
-    expect(queue.length).toEqual(2);
+    expect(queue).toHaveLength(2);
     expect(queue.peek()).toEqual(1);
     expect(queue.dequeue()).toEqual(1);
   });
