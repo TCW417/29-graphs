@@ -1,12 +1,9 @@
-
-
 import Graph from '../lib/graph';
 import Node from '../lib/node';
-import dijkstra from '../lib/dijkstra';
+import DFS from '../lib/sort-of-dfs';
 
-
-describe('BFS Search', () => {
-  test('Simple Search', () => {
+describe('DFS Search', () => {
+  test('testing DFS search', () => {
     const graph = new Graph();
     const node5 = new Node(5);
     const node10 = new Node(10);
@@ -20,6 +17,7 @@ describe('BFS Search', () => {
     const node50 = new Node(50);
     const node100 = new Node(100);
 
+    // add nodes
     graph.addNode(node5);
     graph.addNode(node10);
     graph.addNode(node15);
@@ -31,27 +29,27 @@ describe('BFS Search', () => {
     graph.addNode(node45);
     graph.addNode(node50);
 
-    graph.addEdge(node5, node45, 5);
-    graph.addEdge(node5, node35, 5);
-    graph.addEdge(node5, node30, 5);
-    graph.addEdge(node5, node20, 10);
-    graph.addEdge(node5, node10, 2);
+    // add edges
+    graph.addEdge(node5, node45);
+    graph.addEdge(node5, node35);
+    graph.addEdge(node5, node30);
+    graph.addEdge(node5, node20);
+    graph.addEdge(node5, node10);
 
-    graph.addEdge(node10, node20, 5);
-    graph.addEdge(node30, node20, 5);
-    graph.addEdge(node30, node40, 5);
-    graph.addEdge(node40, node50, 5);
+    graph.addEdge(node10, node20);
+    graph.addEdge(node30, node20);
+    graph.addEdge(node30, node40);
+    graph.addEdge(node40, node50);
 
-    graph.addEdge(node10, node15, 2);
-    graph.addEdge(node20, node25, 10);
-    graph.addEdge(node15, node25, 2);
+    graph.addEdge(node10, node15);
+    graph.addEdge(node20, node25);
+    graph.addEdge(node15, node25);
 
-    const paths = dijkstra(graph, node5, node25);
+    const paths = DFS(graph, node5, node25);
     console.log(paths);
     expect(paths).not.toBeNull();
     expect(paths.has(node25)).toBeTruthy();
-
-    const nonExistentPaths = dijkstra(graph, node5, node100);
+    const nonExistentPaths = DFS(graph, node5, node100);
     expect(nonExistentPaths).toBeNull();
   });
 });
